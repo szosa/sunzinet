@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/register', 'UserController@register');
+Route::post('/login', 'AuthController@login');
+Route::post('/upload-file', 'FileController@uploadFile');
+Route::put('/change-file-name/{fileId}', 'FileController@changeFileName');
+Route::delete('/delete-file/{fileId}', 'FileController@deleteFile');
+Route::get('/download/{fileId}', 'FileController@download');
+Route::get('/get-user-files', 'FileController@getUserFiles');

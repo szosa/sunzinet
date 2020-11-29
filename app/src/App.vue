@@ -1,28 +1,42 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="app">
+        <div>
+            <b-navbar toggleable="lg" type="dark" variant="success">
+                <b-collapse id="nav-collapse" is-nav>
+                    <b-navbar-nav>
+                        <b-nav-item :to="{ name: 'login'}" v-if="!loggedIn">Login</b-nav-item>
+                        <b-nav-item :to="{ name: 'register'}" v-if="!loggedIn">Rejestracja</b-nav-item>
+                        <b-button @click="logout" v-if="loggedIn" type="button">Wyloguj</b-button>
+                    </b-navbar-nav>
+                </b-collapse>
+            </b-navbar>
+        </div>
+        <router-view/>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    export default {
+        name: 'App',
+        components: {},
+        computed: {
+            loggedIn() {
+                return this.$store.state.auth.status.loggedIn;
+            }
+        },
+        methods: {
+            logout(event) {
+                event.preventDefault();
+                this.$store.dispatch('auth/logout').then(() => {
+                        this.$router.push({name: 'login'});
+                    }
+                )
+            }
+        }
+    }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
